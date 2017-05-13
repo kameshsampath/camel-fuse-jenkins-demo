@@ -40,9 +40,9 @@
   </distributionManagement>
 
   <scm>
-    <connection>scm:git:http://localhost:3000/gogsadmin/camel-jenkins-demo.git</connection>
-    <developerConnection>scm:git:http://localhost:3000/gogsadmin/camel-jenkins-demo.git</developerConnection>
-    <url>http://localhost:3000/gogsadmin/camel-jenkins-demo</url>
+    <connection>scm:git:http://localhost:3000/gogsadmin/camel-fuse-jenkins-demo.git</connection>
+    <developerConnection>scm:git:http://localhost:3000/gogsadmin/camel-fuse-jenkins-demo.git</developerConnection>
+    <url>http://localhost:3000/gogsadmin/camel-fuse-jenkins-demo</url>
     <tag>HEAD</tag>
   </scm>
 
@@ -158,14 +158,22 @@
   </profiles>
 
   <build>
-    <finalName>${project.artifactId}</finalName>
-    <plugins>
 
+    <plugins>
       <plugin>
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
         <version>${version.maven-bundle-plugin}</version>
         <extensions>true</extensions>
+        <configuration>
+          <instructions>
+            <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+            <Bundle-Version>${project.version}</Bundle-Version>
+            <Private-Package>demo</Private-Package>
+            <Export-Package/>
+            <Import-Package>*</Import-Package>
+          </instructions>
+        </configuration>
       </plugin>
 
       <plugin>
@@ -177,15 +185,6 @@
         </configuration>
       </plugin>
 
-      <!--
-        this plugin will use the fabric.* properties to configure its behaviour
-        see the Properties section here: http://fabric8.io/#/site/book/doc/index.md?chapter=mavenPlugin_md
-  <plugin>
-      <groupId>io.fabric8</groupId>
-      <artifactId>fabric8-maven-plugin</artifactId>
-      <version>${fabric.version}</version>
-  </plugin>
-      -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-scm-plugin</artifactId>
@@ -194,6 +193,7 @@
           <tag>v${tagName}</tag>
         </configuration>
       </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-deploy-plugin</artifactId>
