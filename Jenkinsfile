@@ -16,29 +16,31 @@
  *   permissions and limitations under the License.
  */
 
-
 def relUtil = load 'release.groovy'
 
 def containerName = ""
 try {
   containerName = CONTAINER_NAME
 } catch (Throwable e) {
-  containerName = "root"
+  containerName = "root" //set to name suiting your env
 }
 
 def profileName = ""
 try {
   profileName = PROFILE_NAME
 } catch (Throwable e) {
-  profileName = "demo-camel"
+  profileName = "demo-camel" //set to name suiting your env
 }
 
-node {
-  wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
+def bundleInfo = relUtil.getMavenBundleInfo()
 
-       stage('Checkout'){
-        git 'http://localhost:3000/gogsadmin/came-fuse-jenkins-demo.git'
-       }
+node {
+
+  stage('Checkout'){
+    git 'http://localhost:3000/gogsadmin/came-fuse-jenkins-demo.git'
+  }
+
+  wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
 
        stage('Build and Test'){
         sh "./mvnw clean install"
@@ -55,9 +57,8 @@ node {
 
        // This will use the SSH credentials with id fabric8-dev, that need to be configured first before releases
        stage('Fuse Dev Deploy') {
-          sshagent (credentials: ['fabric8-dev']) {
 
-          def bundleInfo = getMavenBundleInfo()
+          sshagent (credentials: ['fabric8-dev']) {
 
           echo "Using Continer : $containerName"
 
