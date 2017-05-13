@@ -30,12 +30,18 @@ try {
   profileName = "demo-camel" //set to name suiting your env
 }
 
+def gitRepoURL = ""
+try {
+  gitRepoURL = GIT_REPO_URL
+} catch (Throwable e) {
+  gitRepoURL = "http://localhost:3000/gogsadmin/camel-fuse-jenkins-demo.git" //set to name suiting your env
+}
+
 node {
 
   stage('Checkout'){
-    git 'http://localhost:3000/gogsadmin/came-fuse-jenkins-demo.git'
+    git $gitRepoURL
   }
-
 
   def relUtil = load 'release.groovy'
 
