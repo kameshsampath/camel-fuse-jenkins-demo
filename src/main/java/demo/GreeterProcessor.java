@@ -19,6 +19,6 @@ public class GreeterProcessor implements Processor {
 
         String user = request.getParameter("user");
 
-        exchange.getOut().setBody(String.format("<h1>Hello %s , Welcome to Apache Camel!", user));
+        exchange.getOut().setBody(String.format("<h1>Hello %s , Welcome to Fuse!", user));
     }
 }
