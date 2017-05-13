@@ -1,0 +1,12 @@
+= Camel Fuse Jenkins Demo
+
+This is a small bundle that wil be used to demonstrate the fuse fabric deployment using Jenkins
+
+NOTE: Document updates in progress..
+
+== Setup
+
+
+== Deploying
+
+
