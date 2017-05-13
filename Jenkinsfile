@@ -1,7 +1,7 @@
 #!/usr/bin/groovy
 /*
  *
- *   Copyright (c) 2016 Red Hat, Inc.
+ *   Copyright (c) 2017 Kamesh Sampath<kamesh.sampath@hotmail.com>
  *
  *   Red Hat licenses this file to you under the Apache License, version
  *   2.0 (the "License"); you may not use this file except in compliance
@@ -32,30 +32,31 @@ try {
 
 node {
 
-  stage('Checkout'){
-    git 'http://localhost:3000/gogsadmin/camel-fuse-jenkins-demo.git'
-  }
-
-  def relUtil = load 'release.groovy'
-
-  def bundleInfo = relUtil.getMavenBundleInfo()
-
-  stage('Build and Test'){
-     sh "./mvnw clean install"
-  }
-
-
-  stage('Integration Tests'){
-    echo ' maven goals for integration tests will be run here'
-  }
-
-  stage('Stage'){
-      sh "./mvnw -DskipTests deploy"
-  }
-
   wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
-     // This will use the SSH credentials with id fabric8-dev, that need to be configured first before releases
-     stage('Fuse Dev Deploy') {
+
+    stage('Checkout'){
+      git 'http://localhost:3000/gogsadmin/camel-fuse-jenkins-demo.git'
+    } //end checkout
+
+    def helper = load 'helper.groovy'
+
+    def bundleInfo = helper.getMavenBundleInfo()
+
+    stage('Build and Test'){
+       sh "./mvnw -B clean install"
+    } // end build and unit test
+
+
+    stage('Integration Tests'){
+      echo ' maven goals for integration tests will be run here'
+    } //end integration tests
+
+    stage('Staging'){
+        sh "./mvnw -DskipTests deploy"
+    } // end staging
+
+    // This will use the SSH credentials with id fabric8-dev, that need to be configured first before releases
+    stage('Fuse Dev Deploy') {
 
         sshagent (credentials: ['fabric8-dev']) {
 
@@ -66,26 +67,28 @@ node {
         echo "Bundle : $bundleInfo"
 
         def exec = """
-        ssh -o StrictHostKeyChecking=no -p 8101 -l karaf localhost << 'EOF'
-        source 'https://raw.githubusercontent.com/kameshsampath/fuse-fabric-pipelines/master/profile_update.karaf'
-        profile_update $containerName $profileName $bundleInfo
-        EOF"""
+ssh -o StrictHostKeyChecking=no -p 8101 -l karaf localhost << 'EOF'
+source 'https://raw.githubusercontent.com/kameshsampath/fuse-fabric-pipelines/master/profile_update.karaf'
+profile_update $containerName $profileName $bundleInfo
+EOF"""
 
-             def fout  = sh script: exec, returnStdout: true
-             println fout
+        def fout  = sh script: exec, returnStdout: true
+        println fout
 
-             if(fout.contains("Error")) {
-                currentBuild.result = 'FAIL'
-             }
+        if(fout.contains("Error")) {
+           currentBuild.result = 'FAIL'
+        }
        }
-     }
-  }
+    } //end stage fuse deploy
+
+  } //end Ansicolor
 
   input "Promote ?"
 
   stage('Release'){
-       def tagName = relUtil.tagVersion()
+       def tagName = helper.tagVersion()
        sh "./mvnw  scm:tag -DtagName=${tagName}"
       //TODO the actual release will be done by another jenkins build job
-  }
+  } //end release
+
 }
