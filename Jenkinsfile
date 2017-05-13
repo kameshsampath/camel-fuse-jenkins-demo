@@ -32,15 +32,15 @@ try {
 
 node {
 
+  stage('Checkout'){
+    git 'http://localhost:3000/gogsadmin/camel-fuse-jenkins-demo.git'
+  } //end checkout
+
+  def helper = load 'helper.groovy'
+
+  def bundleInfo = helper.fuseMavenBundle()
+
   wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
-
-    stage('Checkout'){
-      git 'http://localhost:3000/gogsadmin/camel-fuse-jenkins-demo.git'
-    } //end checkout
-
-    def helper = load 'helper.groovy'
-
-    def bundleInfo = helper.getMavenBundleInfo()
 
     stage('Build and Test'){
        sh "./mvnw -B clean install"

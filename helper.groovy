@@ -22,21 +22,15 @@ def projectVersion() {
   return project.version.text();
 }
 
-def getMavenBundleInfo() {
-  return "mvn:" + fuseMavenBundle() + "/" + projectVersion()
-}
-
 def fuseMavenBundle() {
 
   def project = mavenProject()
 
   String groupId = project.groupId.text()
 
-  groupId = groupId.replace('.', '/')
-
   String artifactId = project.artifactId.text()
 
-  return groupId + "/" + artifactId;
+  return "mvn:" + groupId + "/" + artifactId + "/" + projectVersion();
 }
 
 def releasedVersion() {
