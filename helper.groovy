@@ -98,7 +98,7 @@ def tagVersion() {
 }
 
 def mavenProject() {
-  def file = new File("pom.xml").getText('UTF-8')
+  def file = new File("${env['WORKSPACE']}/pom.xml").getText('UTF-8')
   def project = new XmlSlurper().parseText(file)
   return project
 }
