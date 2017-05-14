@@ -22,7 +22,7 @@
 
   <groupId>org.workspace7.fuse</groupId>
   <artifactId>camel-fuse-jenkins-demo</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>1.0.1-SNAPSHOT</version>
   <packaging>bundle</packaging>
   <name>JBoss Fuse : camel-jenkins-demo</name>
   <description>Camel Example to demonstrate Jenkins based CI/CD</description>

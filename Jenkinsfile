@@ -32,11 +32,6 @@ try {
 
 node {
 
-  stage ('Cleanup Workspace') {
-    dir("env['WORKSPACE']") {
-        deleteDir()
-    }
-  }
   stage('Checkout'){
     git 'http://localhost:3000/gogsadmin/camel-fuse-jenkins-demo.git'
   } //end checkout
