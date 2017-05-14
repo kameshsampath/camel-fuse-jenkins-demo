@@ -39,6 +39,7 @@
     </snapshotRepository>
   </distributionManagement>
 
+  <!-- Modify this to use you local version control system -->
   <scm>
     <connection>scm:git:http://localhost:3000/gogsadmin/camel-fuse-jenkins-demo.git</connection>
     <developerConnection>scm:git:http://localhost:3000/gogsadmin/camel-fuse-jenkins-demo.git</developerConnection>
@@ -71,7 +72,7 @@
     <fabric8.parentProfiles>fabric,feature-camel</fabric8.parentProfiles>
     <fabric8.features>camel-jenkins-demo</fabric8.features>
     <tagName>${project.version}</tagName>
-    <!-- This is required to get existing metadata -->
+    <!-- This is required to get existing metadata, make it to point to local nexus -->
     <nexus.url>http://localhost:8081/nexus</nexus.url>
   </properties>
 
