@@ -43,6 +43,13 @@ and which can be later used by production pipelines to deploy it in production
 NOTE: this demo does not cover the job that performs release to production, but it could be a similar jenkins job as this
 one with bit of variation and additional steps
 
+== References
+
+* https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_Fuse/6.2.1/html-single/Fabric_Guide/index.html[Fabric Guide]
+
+* https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_Fuse/6.2.1/html/Security_Guide/ESBSecureContainer.html#ESBSecureJAASRealmDef[ESB Security]
+
+
 == License
 
 Copyright 2017 Kamesh Sampath
