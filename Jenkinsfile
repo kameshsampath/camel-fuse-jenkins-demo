@@ -97,7 +97,7 @@ EOF"""
        sh './mvnw build-helper:parse-version versions:set -DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.minorVersion}.\\\${parsedVersion.nextIncrementalVersion} '
        def snapshotVersion = helper.projectVersion()
        sh "git commit -a -m '[CD] prepare for next development iteration ${snapshotVersion}'"
-       sh "git push origin -u all master"
+       sh "git push origin master"
 
   } //end release
 
