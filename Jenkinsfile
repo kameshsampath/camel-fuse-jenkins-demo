@@ -86,9 +86,11 @@ EOF"""
   input "Promote ?"
 
   stage('Release'){
+       //This is just to show one of the many ways to increment the build version via jenkins build
+       sh './mvnw build-helper:parse-version versions:set -DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.minorVersion}.\\\${parsedVersion.nextIncrementalVersion} '
        def tagName = helper.tagVersion()
        sh "./mvnw  scm:tag -DtagName=${tagName}"
-      //TODO the actual release will be done by another jenkins build job
+       sh "./mvnw -DskipTests clean install deploy"
   } //end release
 
 }

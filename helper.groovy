@@ -19,7 +19,7 @@
 
 def projectVersion() {
   def project = mavenProject()
-  return project.version.text();
+  return project.version.text()
 }
 
 def fuseMavenBundle() {
@@ -68,26 +68,26 @@ def releasedVersion() {
 
 def tagVersion() {
 
-  def tokens = releasedVersion().tokenize('.')
+  def tokens = projectVersion().tokenize('.')
 
   def major = tokens[0]
   def minor = tokens[1]
   def micro = tokens[2]
 
-  //we will go up to 99
-  if (micro.toInteger() < 99) {
-    micro = micro.toInteger() + 1
-  } else {
-    micro = "0"
-    if (minor.toInteger() < 9) {
-      minor = minor.toInteger() + 1
-    } else {
-      //Check this what maximum allowed for major
-      major = major.toInteger() + 1
-      minor = "0"
-    }
-  }
-
+//  //we will go up to 99
+//  if (micro.toInteger() < 99) {
+//    micro = micro.toInteger() + 1
+//  } else {
+//    micro = "0"
+//    if (minor.toInteger() < 9) {
+//      minor = minor.toInteger() + 1
+//    } else {
+//      //Check this what maximum allowed for major
+//      major = major.toInteger() + 1
+//      minor = "0"
+//    }
+//  }
+  echo "New version is ${major}.${minor}.${micro}"
   return "${major}.${minor}.${micro}"
 }
 
