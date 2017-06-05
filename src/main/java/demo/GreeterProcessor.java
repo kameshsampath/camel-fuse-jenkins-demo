@@ -19,6 +19,6 @@ public class GreeterProcessor implements Processor {
 
         String user = request.getParameter("user");
 
-        exchange.getOut().setBody(String.format("<h1>Hello %s , Welcome to JBoss Fuse!", user));
+        exchange.getOut().setBody(String.format("<h1>Hello %s , Welcome to JBoss Fuse CI/CD!", user));
     }
 }

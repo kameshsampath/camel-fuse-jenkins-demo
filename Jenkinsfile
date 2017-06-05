@@ -94,7 +94,7 @@ EOF"""
        sh "./mvnw -V -B -U -DskipTests clean install deploy"
 
        // prepare next iteration
-       sh './mvnw build-helper:parse-version versions:set -DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.minorVersion}.\\\${parsedVersion.nextIncrementalVersion} '
+       sh './mvnw build-helper:parse-version versions:set -DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.minorVersion}.\\\${parsedVersion.nextIncrementalVersion}-SNAPSHOT'
        def snapshotVersion = helper.projectVersion()
        sh "git commit -a -m '[CD] prepare for next development iteration ${snapshotVersion}'"
        sh "git push origin master"
