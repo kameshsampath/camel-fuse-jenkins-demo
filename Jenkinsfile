@@ -90,7 +90,15 @@ EOF"""
        sh './mvnw build-helper:parse-version versions:set -DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.minorVersion}.\\\${parsedVersion.nextIncrementalVersion} '
        def tagName = helper.tagVersion()
        sh "./mvnw  scm:tag -DtagName=${tagName}"
-       sh "./mvnw -DskipTests clean install deploy"
+       sh "./mvnw clean -B"
+       sh "./mvnw -V -B -U -DskipTests clean install deploy"
+
+       // prepare next iteration
+       sh './mvnw build-helper:parse-version versions:set -DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.minorVersion}.\\\${parsedVersion.nextIncrementalVersion} '
+       def snapshotVersion = helper.getProjectVersion()
+       sh "git commit -a -m '[CD] prepare for next development iteration ${snapshotVersion}'"
+       sh "git push origin -u all master"
+
   } //end release
 
 }
